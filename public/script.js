@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const elements = {
         registrationModal: document.getElementById('registrationModal'),
         usernameInput: document.getElementById('userNameInput'),
+        groupSelectInput: document.getElementById('groupSelectInput'),
         registerBtn: document.getElementById('registerUserBtn'),
         registrationError: document.getElementById('registrationError'),
         timer: document.getElementById('timer'),
@@ -199,12 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
         //const solvedProblems = state.users[state.currentUser]?.solvedProblems || [];
         const userGroupId = state.users[state.currentUser].groupId;
         const groupSolvedProblems = state.groups[userGroupId]?.solvedProblems || [];
-        const isSolved = groupSolvedProblems.includes(parseInt(id));
-
-
 
         Object.entries(problems).forEach(([id, problem]) => {
-            const isSolved = solvedProblems.includes(parseInt(id));
+            const isSolved = groupSolvedProblems.includes(parseInt(id));
             const item = document.createElement('div');
             item.className = `problem-list-item ${isSolved ? 'solved' : ''}`;
             item.dataset.problemId = id;
@@ -731,29 +729,7 @@ function showCelebration(points) {
     setTimeout(() => { celebration.remove(); }, 3000);
 }
 
-    elements.registerBtn.addEventListener('click', () => {
-    const username = elements.usernameInput.value.trim();
-    if (!username) {
-        elements.registrationError.textContent = 'Ingresa un nombre válido';
-        return;
-    }
-
-    state.currentUser = username;
-    if (!state.users[username]) {
-        state.users[username] = { score: 0, solvedProblems: [], savedCode: {} };
-    }
-
-    // 👇 Aquí enviamos al servidor
-    fetch('/api/scores', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, score: 0 })
-    });
-
-    elements.registrationModal.style.display = 'none';
-    showProblemListView();
-});
-
+    elements.registerBtn.addEventListener('click', registerUser);
     elements.usernameInput.addEventListener('keypress', (e) => e.key === 'Enter' && registerUser());
     elements.backToListBtn.addEventListener('click', showProblemListView);
     elements.submitCodeBtn.addEventListener('click', handleSubmit);
