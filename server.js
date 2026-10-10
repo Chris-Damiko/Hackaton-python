@@ -2,12 +2,13 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const SCORES_PATH = path.join(__dirname, 'scores.json');
 
 // Esta línea le dice a Express que sirva los archivos estáticos desde la carpeta "public"
-app.use(express.static('public'));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Función auxiliar para leer scores.json
 function readScoresFile(callback) {
@@ -107,6 +108,6 @@ app.post('/api/scores', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
