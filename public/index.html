@@ -185,6 +185,21 @@ body::after {
     100% { left: 100%; }
 }
 
+.brand {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+}
+
+.brand-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.95em;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan);
+    opacity: 0.85;
+}
+
 .app-header h1 {
     margin: 0;
     font-family: var(--font-display);
@@ -985,7 +1000,10 @@ main {
 
     <div class="app-container">
         <header class="app-header">
-            <h1>PyContest</h1>
+            <div class="brand">
+                <h1>PyContest</h1>
+                <span class="brand-tagline">creado por aninayuwoki para practicar python modo hackzord!</span>
+            </div>
             <div id="timer" class="timer-display">⏰ Tiempo: --:--:--</div>
         </header>
 
